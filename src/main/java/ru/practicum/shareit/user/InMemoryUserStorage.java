@@ -44,4 +44,25 @@ public class InMemoryUserStorage {
     private long getNextId() {
         return nextId++;
     }
+
+    private boolean ownerOfEmail(User user, User oldUser){
+        if (oldUser != null){
+            return (oldUser.getEmail().equals(user.getEmail()));
+        }
+        return false;
+    }
+    public User update(User user) {
+        User oldUser = storage.get(user.getId());
+        if (emails.contains(user.getEmail()) && (!ownerOfEmail(user, oldUser))) {
+            throw new ConflictException("Email already exist");
+        } else {
+            emails.remove(oldUser.getEmail());
+        }
+        if (user.getId() == 0) {
+            user.setId(getNextId());
+        }
+        emails.add(user.getEmail());
+        storage.put(user.getId(), user);
+        return user;
+    }
 }

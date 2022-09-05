@@ -28,6 +28,9 @@ public class InMemoryItemStorage {
 
     public Item save(Item item) {
         if (!storage.containsKey(item.getId())) {
+            while (storage.get(nextId) != null) {
+                getNextId();
+            }
             item.setId(getNextId());
         }
         storage.put(item.getId(), item);

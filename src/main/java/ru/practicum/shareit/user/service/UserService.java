@@ -31,7 +31,7 @@ public class UserService {
         );
     }
 
-    public UserDto create(UserDto userDto) {
+    private void validate(UserDto userDto){
         userStorage.findById(userDto.getId()).ifPresent(user -> {
             throw new ValidationException("User already exist");
         });
@@ -41,21 +41,20 @@ public class UserService {
         if (userDto.getName() == null) {
             throw new ValidationException("Name cant be null");
         }
+    }
+
+    public UserDto create(UserDto userDto) {
+        validate(userDto);
         userDto.setId(0L);
         return userMapper.toDto(userStorage.save(userMapper.fromDto(userDto)));
     }
 
-    public UserDto update(UserDto userDto, long id) {
+    public UserDto update(UserDto userDto, long id) { // Спасибо, учитель :)
         userDto.setId(id);
-        UserDto oldUser = delete(id);
+        UserDto oldUser = getUser(id);
         User user = userMapper.fromDto(oldUser);
-        userMapper.updateUserFromDto(userDto, user); // mutate user
-        try {
-            return userMapper.toDto(userStorage.save(user));
-        } catch (ConflictException e) {
-            userStorage.save(userMapper.fromDto(oldUser));
-            throw new ConflictException(e.getMessage());
-        }
+        userMapper.updateUserFromDto(userDto, user);
+        return userMapper.toDto(userStorage.update(user));
     }
 
     public UserDto delete(long id) {

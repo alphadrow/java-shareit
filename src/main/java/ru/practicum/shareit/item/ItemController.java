@@ -40,7 +40,6 @@ public class ItemController {
 
     @GetMapping("/search")
     public List<ItemDto> searchByKeyword(@RequestParam(name = "text", defaultValue = "") String keyword) {
-        if (keyword.isEmpty()) return Collections.emptyList();
         return itemService.searchByKeyword(keyword);
     }
 }

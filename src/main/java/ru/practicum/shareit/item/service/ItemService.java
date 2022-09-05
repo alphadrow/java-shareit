@@ -10,6 +10,7 @@ import ru.practicum.shareit.item.models.Item;
 import ru.practicum.shareit.item.models.ItemDto;
 import ru.practicum.shareit.user.InMemoryUserStorage;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -57,6 +58,7 @@ public class ItemService {
     }
 
     public List<ItemDto> searchByKeyword(String keyword) {
+        if (keyword.isEmpty()) return Collections.emptyList();
         return itemMapper.toListDto(itemStorage.searchByKeyword(keyword));
     }
 }
