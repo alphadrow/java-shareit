@@ -45,12 +45,13 @@ public class InMemoryUserStorage {
         return nextId++;
     }
 
-    private boolean ownerOfEmail(User user, User oldUser){
-        if (oldUser != null){
+    private boolean ownerOfEmail(User user, User oldUser) {
+        if (oldUser != null) {
             return (oldUser.getEmail().equals(user.getEmail()));
         }
         return false;
     }
+
     public User update(User user) {
         User oldUser = storage.get(user.getId());
         if (emails.contains(user.getEmail()) && (!ownerOfEmail(user, oldUser))) {

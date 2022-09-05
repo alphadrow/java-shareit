@@ -6,7 +6,6 @@ import ru.practicum.shareit.item.models.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
 import java.util.List;
 
 

@@ -3,7 +3,6 @@ package ru.practicum.shareit.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exception.ConflictException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.InMemoryUserStorage;
@@ -31,7 +30,7 @@ public class UserService {
         );
     }
 
-    private void validate(UserDto userDto){
+    private void validate(UserDto userDto) {
         userStorage.findById(userDto.getId()).ifPresent(user -> {
             throw new ValidationException("User already exist");
         });
