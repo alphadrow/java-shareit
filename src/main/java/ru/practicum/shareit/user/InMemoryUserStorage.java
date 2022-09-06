@@ -45,7 +45,7 @@ public class InMemoryUserStorage {
         return nextId++;
     }
 
-    private boolean ownerOfEmail(User user, User oldUser) {
+    private boolean haveTheSameEmail(User user, User oldUser) {
         if (oldUser != null) {
             return (oldUser.getEmail().equals(user.getEmail()));
         }
@@ -54,10 +54,11 @@ public class InMemoryUserStorage {
 
     public User update(User user) {
         User oldUser = storage.get(user.getId());
-        if (emails.contains(user.getEmail()) && (!ownerOfEmail(user, oldUser))) {
-            throw new ConflictException("Email already exist");
+        if (emails.contains(user.getEmail()) && (!haveTheSameEmail(user, oldUser))) {
+            throw new ConflictException("Email already exists");
         } else {
             emails.remove(oldUser.getEmail());
+
         }
         if (user.getId() == 0) {
             user.setId(getNextId());

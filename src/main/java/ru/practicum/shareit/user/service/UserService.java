@@ -32,7 +32,7 @@ public class UserService {
 
     private void validate(UserDto userDto) {
         userStorage.findById(userDto.getId()).ifPresent(user -> {
-            throw new ValidationException("User already exist");
+            throw new ValidationException("User already exists");
         });
         if (userDto.getEmail() == null) {
             throw new ValidationException("Email cant be null");
@@ -48,7 +48,7 @@ public class UserService {
         return userMapper.toDto(userStorage.save(userMapper.fromDto(userDto)));
     }
 
-    public UserDto update(UserDto userDto, long id) { // Спасибо, учитель :)
+    public UserDto update(UserDto userDto, long id) {
         userDto.setId(id);
         UserDto oldUser = getUser(id);
         User user = userMapper.fromDto(oldUser);
